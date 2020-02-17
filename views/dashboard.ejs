@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+	<title>Kingsmen - Dashboard</title>
+
+	<!-- Meta Data for this Website -->
+  <meta charset="utf-8">
+
+  <!-- Bootstrap-->
+<link rel="stylesheet" href="../public/stylesheets/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="../public/DataTables/datatables.min.css">
+  
+<!-- Javascript libs -->
+<script type="text/javascript" src="../public/javascripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="../public/DataTables/datatables.min.js"></script>
+
+
+</head>
+<body>
+  <nav class="navbar sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="#">KINGSMEN</a>
+  </nav>
+  <br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+          <table id = "dashTable" class="table-sm table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">certificate Number</th>
+                <th scope="col">business Name</th>
+                <th scope="col">Status</th>
+                <th hidden="true" scope="col">City</th>
+                <th hidden="true" scope="col">Misc</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(data.length !== 0){ %>
+                <%for(var i=0; i < data.length; i++) { %>
+                  <tr>
+                    <!-- column with id has logic for collapsing the row for extra details -->
+                    <td><%= data[i].id %> </td>
+                    <td><%= data[i].certificate_number %></td>
+                    <td><%= data[i].business_name %></td>
+                    <td><%= data[i].result %></td>
+                    <td hidden="true"><%= data[i].address.city %></td>
+                    <td hidden="true"><%= data[i].sector %>;<%= data[i].address.street %>;<%= data[i].address.zip %></td>
+                  </tr>
+                <%} %>
+              <%} %>      
+            </tbody>
+          </table>
+
+          <!-- Modal -->
+          <%- include('modal.ejs') %>
+          
+      </div>
+    </div>
+  </div>
+
+<!-- Load UI logic after populating the full page -->
+<script type="text/javascript" src="../public/javascripts/dashboardUILogic.js"></script>
+</body>
+</html>
