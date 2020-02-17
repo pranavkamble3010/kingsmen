@@ -17,10 +17,13 @@ $(document).ready(function () {
         $('#detailsModal').modal(options);
         $('#detailsModalLabel').text(data[2]);
         setModalValues(data);
-
+        $('#id').attr('readonly',true);
+        $('#id').class('form-control-plaintext');
         console.log(rowIndexForUpdate);
     } );
 
+
+    //Update the record in the database and update the table entry
     $('#btnUpdate').on('click',function(){
 
         var cct_num = $('#cct_num').val();
@@ -85,6 +88,7 @@ $(document).ready(function () {
     })
 
 
+    //Set modal values
     function setModalValues(data){
 
         var miscFields = data[5].split(';');
@@ -99,5 +103,15 @@ $(document).ready(function () {
         $('#zip').val(miscFields[2]);
 
     }
+
+
+    //Insert new record on clicking add new button
+    $('#btnAdd').on('click',function(){
+        rowIndexForUpdate = table.rows().count();
+        console.log(rowIndexForUpdate);
+        $('#detailsModal').modal(options);
+        $('#detailsModalLabel').text("Add new record");  
+        $('#id').attr('readonly',false);
+    })
 
   });

@@ -25,6 +25,12 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
+        <button id="btnAdd" type="button" class="btn btn-primary">Add new</button>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-lg-12">
           <table id = "dashTable" class="table-sm table-striped table-bordered table-hover">
             <thead>
               <tr>
@@ -55,9 +61,20 @@
 
           <!-- Modal -->
           <%- include('modal.ejs') %>
-          
       </div>
     </div>
+
+    <br/><br/>
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- Pie chart -->
+        <div class="card">
+          <div class="card-body">
+            <%- include('piechart.ejs') %>
+          </div>
+        </div>
+      </div>
+      </div>
   </div>
 
 <!-- Load UI logic after populating the full page -->

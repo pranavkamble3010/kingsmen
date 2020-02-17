@@ -27,6 +27,23 @@ router.get('/', function(req, res, next) {
 
 });
 
+
+/* GET table rows. */
+router.get('/gettabledata', function(req, res, next) {
+
+  fetch(apiUrl+'/getall')
+  .then(res => res.text())
+  .then(result=>saveData(result))
+  
+
+  saveData = function(data){
+    savedData = JSON.parse(data);
+    //console.log(data);
+    res.send(savedData);
+  }
+
+});
+
 //accept data to be updated and send the updated data in the response
 router.post('/', function(req, res) {
 
@@ -59,6 +76,21 @@ function sendResponse(result){
 }
 
   
+});
+
+
+router.get('/results', function(req, res, next) {
+
+  fetch(apiUrl+'/getresults')
+  .then(res => res.text())
+  .then(result=>saveData(result))
+  
+
+  saveData = function(data){
+    console.log(data);
+    res.send(data);
+  }
+
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const config =  {
 
-    backendIp :"35.184.221.240",
+    backendIp :"35.188.99.49",
     backendPort:"1880",
     getUrl : function(){ return 'http://'+this.backendIp+':'+this.backendPort}
 }
