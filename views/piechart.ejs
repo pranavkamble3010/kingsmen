@@ -1,52 +1,61 @@
+<script>
+    // function loadStatistics(){
+    //     var results = {}
+    //         $.ajax({
+    //             type: "GET",
+    //             url: '/dashboard/results',
+    //             success:function(data){
+    //                 renderChart(data)
+    //             }});
 
-        <script>
-        window.onload = function() {
+    // function renderChart(data){
+    //         this.results=JSON.parse(data);
+    //         console.log(this.results);
+    //         values = Object.values(this.results);
+    //         labels = Object.keys(this.results);
+    //         // console.log(values);
+    //         // console.log(labels);
 
-            var results = {}
-            $.ajax({
-                type: "GET",
-                url: '/dashboard/results',
-                success:function(data){
-                    renderChart(data)
-                }});
+    //             var chart = new CanvasJS.Chart("chartContainer", {
+    //                 animationEnabled: true,
+    //                 title: {
+    //                     text: "Status at a glance"
+    //                 },
+    //                 data: [{
+    //                     type: "pie",
+    //                     startAngle: 240,
+    //                     yValueFormatString: "##0",
+    //                     indexLabel: "{label} {y}",
+    //                     dataPoints: [
+    //                         {y: values[0], label: labels[0]},
+    //                         {y: values[1], label: labels[1]},
+    //                         {y: values[2], label: labels[2]},
+    //                         {y: values[3], label: labels[3]}
+    //                     ]
+    //                 }]
+    //             });
+    //             chart.render();
+            
+    //     }
+    // }
+</script>
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button id="viewStats" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              View statistics
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            <script src="../public/javascripts/canvasjs.min.js"></script>
+          </div>
+        </div>
+      </div>
+</div>
 
-                function renderChart(data){
 
-                this.results=JSON.parse(data);
-                console.log(this.results);
-                values = Object.values(this.results);
-                labels = Object.keys(this.results);
-                console.log(values);
-                console.log(labels);
-
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        title: {
-                            text: "Status at a glance"
-                        },
-                        data: [{
-                            type: "pie",
-                            startAngle: 240,
-                            yValueFormatString: "##0",
-                            indexLabel: "{label} {y}",
-                            dataPoints: [
-                                {y: values[0], label: labels[0]},
-                                {y: values[1], label: labels[1]},
-                                {y: values[2], label: labels[2]},
-                                {y: values[3], label: labels[3]}
-                            ]
-                        }]
-                    });
-                    chart.render();
-                    
-                    }
-
-                }
-                
-        
-      
-        
-        </script>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<script src="../public/javascripts/canvasjs.min.js"></script>
   

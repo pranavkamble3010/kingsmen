@@ -9,12 +9,22 @@
   <!-- Bootstrap-->
 <link rel="stylesheet" href="../public/stylesheets/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="../public/DataTables/datatables.min.css">
+<link href="https://unpkg.com/tabulator-tables@4.5.3/dist/css/tabulator_modern.min.css" rel="stylesheet">
   
 <!-- Javascript libs -->
 <script type="text/javascript" src="../public/javascripts/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../public/javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../public/DataTables/datatables.min.js"></script>
 
+
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.5.3/dist/js/tabulator.min.js"></script>
+
+
+<!-- Load UI logic -->
+<script type="text/javascript" src="../public/javascripts/dashboardUILogic.js"></script>
+  
+<!-- Load stats after full render of the page -->
+<script type="text/javascript" src="../public/javascripts/dashboardStats.js"></script>
 
 </head>
 <body>
@@ -24,60 +34,47 @@
   <br><br>
   <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <button id="btnAdd" type="button" class="btn btn-primary">Add new</button>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8">
+        <form class="form-inline">
+          <label class="sr-only" for="filter-field">Filter field</label>
+          <input type="text" class="form-control mb-2 mr-sm-2" id="filter-field" placeholder="Filter field">
+        
+          <label class="sr-only" for="filter-value">Username</label>
+          <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">@</div>
+            </div>
+            <input type="text" class="form-control" id="filter-value" placeholder="Value">
+          </div>
+        
+          <button id="filter" class="btn btn-secondary mb-2">Filter</button>
+          <button id="filter-clear" class="btn btn-link mb-2">Clear filter</button>
+        </form>
+      </div>
+      <div class="col-lg-2">
+        <button id="btnAdd" type="button" class="btn btn-light">Add New Record</button>
       </div>
     </div>
     <br/>
+  
     <div class="row">
       <div class="col-lg-12">
-          <table id = "dashTable" class="table-sm table-striped table-bordered table-hover">
-            <thead>
-              <tr>
-                <th scope="col">id</th>
-                <th scope="col">certificate Number</th>
-                <th scope="col">business Name</th>
-                <th scope="col">Status</th>
-                <th hidden="true" scope="col">City</th>
-                <th hidden="true" scope="col">Misc</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if(data.length !== 0){ %>
-                <%for(var i=0; i < data.length; i++) { %>
-                  <tr>
-                    <!-- column with id has logic for collapsing the row for extra details -->
-                    <td><%= data[i].id %> </td>
-                    <td><%= data[i].certificate_number %></td>
-                    <td><%= data[i].business_name %></td>
-                    <td><%= data[i].result %></td>
-                    <td hidden="true"><%= data[i].address.city %></td>
-                    <td hidden="true"><%= data[i].sector %>;<%= data[i].address.street %>;<%= data[i].address.zip %></td>
-                  </tr>
-                <%} %>
-              <%} %>      
-            </tbody>
-          </table>
-
-          <!-- Modal -->
-          <%- include('modal.ejs') %>
-      </div>
+          <table id = "example" class="table-sm table-striped table-bordered table-hover">
+            </table>
+            </div>
     </div>
 
-    <br/><br/>
+    <!-- Modal -->
+    <%- include('modal.ejs') %>
+
+    <br/>
     <div class="row">
       <div class="col-lg-12">
         <!-- Pie chart -->
-        <div class="card">
-          <div class="card-body">
             <%- include('piechart.ejs') %>
-          </div>
-        </div>
       </div>
       </div>
   </div>
-
-<!-- Load UI logic after populating the full page -->
-<script type="text/javascript" src="../public/javascripts/dashboardUILogic.js"></script>
 </body>
 </html>

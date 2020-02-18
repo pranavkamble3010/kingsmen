@@ -1,27 +1,19 @@
 $(document).ready(function () {
-    var table = $('#dashTable').DataTable();
+
+    //call different approach
+    serverSideLoad();
+
+    //variable to indicate new row addition
+    var newAdd = false;
+
+    //global table variable
+    var table;
 
     var options = {
         keyboard: false
     };
 
     var rowIndexForUpdate = -1;
-
-    //display full data into the modal
-    $('#dashTable tbody').on('click', 'tr', function () {
-        var data = table.row( this ).data();
-
-        //save this for further update
-        rowIndexForUpdate = table.row(this).index();
-        //$("#cardHeader").text(data[2]);
-        $('#detailsModal').modal(options);
-        $('#detailsModalLabel').text(data[2]);
-        setModalValues(data);
-        $('#id').attr('readonly',true);
-        $('#id').class('form-control-plaintext');
-        console.log(rowIndexForUpdate);
-    } );
-
 
     //Update the record in the database and update the table entry
     $('#btnUpdate').on('click',function(){
@@ -57,29 +49,19 @@ $(document).ready(function () {
             url: '/dashboard',
             data: update_object,
             success: function(data){
+                console.log("Upsert successful!");
                 console.log(data);
+                if(newAdd){
+                    //The second argument is optional and determines whether the data is added to the top or bottom of the table. 
+                    //A value of true will add the data to the top of the table
+                    table.addData(data, true);
+                    newAdd = false;
 
-                data = JSON.parse(data);
-
-                table.cell(rowIndexForUpdate,0)
-                .data(data[0].id);
-
-                table.cell(rowIndexForUpdate,1)
-                .data(data[0].certificate_number);
-
-                table.cell(rowIndexForUpdate,2)
-                .data(data[0].business_name);
-
-                table.cell(rowIndexForUpdate,3)
-                .data(data[0].result);
-
-                table.cell(rowIndexForUpdate,4)
-                .data(data[0].address.city);
-
-                table.cell(rowIndexForUpdate,5)
-                .data(data[0].address.sector,data[0].address.street,data[0].address.zip);
-
-                table.draw();
+                }
+                else{
+                    table.updateData(data);
+                }
+                
             },
             
           });
@@ -90,28 +72,109 @@ $(document).ready(function () {
 
     //Set modal values
     function setModalValues(data){
-
-        var miscFields = data[5].split(';');
-
-        $('#id').val(data[0]);
-        $('#cct_num').val(data[1]);
-        $('#business_name').val(data[2]);
-        $('#city').val(data[4]);
-        $('#status').val(data[3]);
-        $('#category').val(miscFields[0]);
-        $('#street_add').val(miscFields[1]);
-        $('#zip').val(miscFields[2]);
-
+        
+        $('#id').attr('readonly',true);
+        $('#id').val(data.id);
+        $('#cct_num').val(data.certificate_number);
+        $('#business_name').val(data.business_name);
+        $('#city').val(data.address.city);
+        $('#status').val(data.result);
+        $('#category').val(data.sector);
+        $('#street_add').val(data.address.street);
+        $('#zip').val(data.address.zip);
     }
 
 
     //Insert new record on clicking add new button
     $('#btnAdd').on('click',function(){
-        rowIndexForUpdate = table.rows().count();
-        console.log(rowIndexForUpdate);
-        $('#detailsModal').modal(options);
-        $('#detailsModalLabel').text("Add new record");  
+        
         $('#id').attr('readonly',false);
+        $('#cct_num').val("");
+        $('#business_name').val("");
+        $('#status').val("");
+        $('#category').val("");
+        $('#city').val("");
+        $('#street_add').val("");
+        $('#zip').val("");
+        $("#id").val("");
+
+        $('#detailsModal').modal(options);
+        $('#detailsModalLabel').text("Add new record");
+
+        newAdd = true;
+    }
+    );
+
+    //Delete the record in the database and delete the table entry
+    $('#btnDelete').on('click',function(){
+
+        var id = $('#id').val();
+
+        var confirmation = confirm("Are you sure to delete record with ID - "+id+" ?");
+
+        if(confirmation){
+
+            delete_object = { id : id};
+            
+            $.ajax({
+                type: "POST",
+                url: '/dashboard/delete',
+                data: delete_object,
+                success: function(data){
+                                //console.log(data.length);
+                                table.deleteRow(id); //Delete row with id
+                                $('#detailsModal').modal('hide');
+
+                        },
+                error: function(_,status,err){
+                        console.log(status,err);
+                        alert("Error occured!"+err);
+                    }
+
+        })
+
+        }
+    });
+
+    function serverSideLoad(){
+
+    table = new Tabulator("#example", {
+        layout:"fitColumns",
+        pagination:"remote", //enable remote pagination
+        ajaxURL:"/dashboard/getpage", //set url for ajax request
+        paginationSize:10, //optional parameter to request a certain number of rows per page
+        columns:[
+            {title:"ID", field:"id", sorter:"number"},
+            {title:"Certificate Number", field:"certificate_number", sorter:"number"},
+            {title:"business Name", field:"business_name", sorter:"string", },
+            {title:"Status", field:"result", sorter:"string",align:"center"}
+        ],
+        rowClick:function(e, row){  //Open modal to update data
+            //e - the click event object
+            //row - row component
+                $('#detailsModal').modal(options);
+                console.log(row);
+                $('#detailsModalLabel').text(row._row.data.business_name);
+
+                setModalValues(row._row.data);
+            },
+    });
+  
+    };
+
+
+    $('#filter').on('click',function(data){
+
+        var filterfield = $('#filter-field').val();
+        var filterval = $('#filter-value').val();
+
+        table.setFilter(filterfield,"=",filterval);
+
+    });
+
+    $('#filter-clear').on('click',function(){
+        table.clearFilter();
     })
 
+    
   });
