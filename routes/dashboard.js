@@ -15,16 +15,6 @@ var apiUrl = config.getUrl();
 router.get('/', function(req, res, next) {
 
   res.render('dashboard.ejs');
-  // fetch(apiUrl+'/getall')
-  // .then(res => res.text())
-  // .then(result=>saveData(result))
-  
-
-  // saveData = function(data){
-  //   savedData = JSON.parse(data);
-  //   //console.log(data);
-  //   res.render('dashboard.ejs', { data : savedData});
-  // }
 
 });
 
@@ -83,15 +73,34 @@ router.get('/getpage', function(req, res, next) {
 
   var pageNumber = req.query.page;
   var pageSize = req.query.size;
-  fetch(apiUrl+'/getpage?page_num='+pageNumber+'&page_size='+pageSize)
-  .then(res => res.text())
-  .then(result=>saveData(result))
-  .catch(er => console.error(er))
+  var filters = req.query.filters;
+  //get the filtered data by calling keyword search API
+  if(filters!=null){
+    console.log(filters);
+    fetch(apiUrl+'/search?search='+filters[0].field+'&value='+filters[0].value+'&page_num='+pageNumber+'&page_size='+pageSize)
+    .then(res => res.text())
+    .then(result=>saveData(result))
+    .catch(er => console.error(er));
+  }
+  else{
+    fetch(apiUrl+'/getpage?page_num='+pageNumber+'&page_size='+pageSize)
+    .then(res => res.text())
+    .then(result=>saveData(result))
+    .catch(er => console.error(er));
+
+  }
+  
+  // fetch(apiUrl+'/getpage?page_num='+pageNumber+'&page_size='+pageSize)
+  // .then(res => res.text())
+  // .then(result=>saveData(result))
+  // .catch(er => console.error(er));
   
 
   saveData = function(data){
+    dataObj = JSON.parse(data);
     console.log(data);
-    var response = {"last_page":8105,data:JSON.parse(data)};
+    last_page = (((dataObj.totalCount%10) == 0)? dataObj.totalCount/10: (dataObj.totalCount/10)+1);
+    var response = {"last_page":last_page,data:dataObj.data};
     res.send(response);
   }
 
@@ -130,5 +139,6 @@ function sendResponse(result){
 }
 
 });
+
 
 module.exports = router;

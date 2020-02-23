@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     //call different approach
-    serverSideLoad();
+    loadMainTable();
 
     //variable to indicate new row addition
     var newAdd = false;
@@ -16,8 +16,9 @@ $(document).ready(function () {
     var rowIndexForUpdate = -1;
 
     //Update the record in the database and update the table entry
-    $('#btnUpdate').on('click',function(){
+    $('#btnUpdate').on('click',btnUpdate_onClick)
 
+    function btnUpdate_onClick(){
         var cct_num = $('#cct_num').val();
         var business_name = $('#business_name').val();
         var status = $('#status').val();
@@ -67,7 +68,7 @@ $(document).ready(function () {
           });
         $('#detailsModal').modal('hide');
 
-    })
+    }
 
 
     //Set modal values
@@ -82,11 +83,16 @@ $(document).ready(function () {
         $('#category').val(data.sector);
         $('#street_add').val(data.address.street);
         $('#zip').val(data.address.zip);
+
+        //Show delete button
+        $("#btnDelete").show();
     }
 
 
     //Insert new record on clicking add new button
-    $('#btnAdd').on('click',function(){
+    $('#btnAdd').on('click',btnAdd_onClick);
+
+    function btnAdd_onClick(){
         
         $('#id').attr('readonly',false);
         $('#cct_num').val("");
@@ -101,9 +107,12 @@ $(document).ready(function () {
         $('#detailsModal').modal(options);
         $('#detailsModalLabel').text("Add new record");
 
+        $("#btnDelete").hide();
+
         newAdd = true;
     }
-    );
+
+    
 
     //Delete the record in the database and delete the table entry
     $('#btnDelete').on('click',function(){
@@ -136,18 +145,19 @@ $(document).ready(function () {
         }
     });
 
-    function serverSideLoad(){
+    function loadMainTable(){
 
     table = new Tabulator("#example", {
         layout:"fitColumns",
         pagination:"remote", //enable remote pagination
         ajaxURL:"/dashboard/getpage", //set url for ajax request
         paginationSize:10, //optional parameter to request a certain number of rows per page
+        ajaxFiltering:true, //Filtering is done at the server side
         columns:[
             {title:"ID", field:"id", sorter:"number"},
             {title:"Certificate Number", field:"certificate_number", sorter:"number"},
             {title:"business Name", field:"business_name", sorter:"string", },
-            {title:"Status", field:"result", sorter:"string",align:"center"}
+            {title:"Result", field:"result", sorter:"string",align:"center"}
         ],
         rowClick:function(e, row){  //Open modal to update data
             //e - the click event object
@@ -168,12 +178,14 @@ $(document).ready(function () {
         var filterfield = $('#filter-field').val();
         var filterval = $('#filter-value').val();
 
-        table.setFilter(filterfield,"=",filterval);
+        table.setFilter(filterfield,"like",filterval);
 
     });
 
     $('#filter-clear').on('click',function(){
         table.clearFilter();
+        $('#filter-value').val('');
+        $('#filter-field').val('-1');
     })
 
     

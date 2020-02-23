@@ -11,7 +11,7 @@ var apiUrl = config.getUrl();
 
 router.get('/', function(req, res, next) {
 
-    fetch(apiUrl+'/getresults')
+    fetch(apiUrl+'/getstats')
     .then(res => res.text())
     .then(result=>saveData(result))
     .catch(er => next())
