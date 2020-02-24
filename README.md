@@ -22,3 +22,10 @@ For this project, I have used Mongo-Express-Node stack and divided the project i
 # UI glimpses
 
 ![image](https://user-images.githubusercontent.com/47729974/75133931-91df9700-56aa-11ea-871e-4f5a3703625e.png)
+
+![image](https://user-images.githubusercontent.com/47729974/75133981-cf442480-56aa-11ea-86d3-7e6a43918aa5.png)
+
+![image](https://user-images.githubusercontent.com/47729974/75134002-ea169900-56aa-11ea-857f-f3fb2f8ed5c8.png)
+
+![image](https://user-images.githubusercontent.com/47729974/75134018-f995e200-56aa-11ea-86e9-89baf21d7bd0.png)
+
