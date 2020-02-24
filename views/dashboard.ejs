@@ -9,14 +9,15 @@
   <!-- Bootstrap-->
 <link rel="stylesheet" href="../public/stylesheets/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="../public/DataTables/datatables.min.css">
-<!-- <link href="https://unpkg.com/tabulator-tables@4.5.3/dist/css/tabulator_site.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="../public/DataTables/datatables.min.css">
 <link rel="stylesheet" href="../public/stylesheets/tabulator_bootstrap4.min.css">
   
 <!-- Javascript libs -->
-<script type="text/javascript" src="../public/javascripts/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../public/javascripts/bootstrap.min.js"></script>
-<script type="text/javascript" src="../public/javascripts/tabulator.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/libs/jquery.validate.min.js"></script>
+
+<script type="text/javascript" src="../public/javascripts/libs/bootstrap.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/libs/tabulator.min.js"></script>
 
 
 <!-- Load UI logic -->
@@ -32,66 +33,45 @@
   </nav>
   <br><br>
   <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="input-group mb-3">
-          <select id="filter-field" class="custom-select">
-            <option selected value='-1'>Select filter...</option>
-            <option value="id">ID</option>
-            <option value="certificate_number">Certificate Number</option>
-            <option value="business_name">Business Name</option>
-            <option value="result">Result</option>
-          </select>
-          <div class="input-group-prepend">
-            <div class="input-group-text">Resembles</div>
+    <div class="row  shadow p-3 mb-5 bg-white rounded">
+      <div class="col-lg-6">
+        <div class="jumbotron jumbotron-fluid" style="background-color: white;">
+          <div class="container">
+            <h1 class="display-4">Kingsmen Dashboard</h1>
+            <p class="lead">This dashboard is an interface to manage the city inspection results data.</p>
           </div>
-          <input id="filter-value" type="text" class="form-control" aria-label="">
-          <div class="input-group-append">
-            <button id="filter" class="btn btn-warning">Search</button>
-          </div>
-          <button id="filter-clear" class="btn btn-link">Clear filter</button>
         </div>
+      </div>
+      <div class="col-lg-6">
+        <!-- Pie chart -->
+            <%- include('piechart.ejs') %>
+      </div>
+      </div>
 
-
-        <!-- <form class="form-inline">
-          <label class="sr-only" for="filter-field">Filter field</label>
-          <input type="text" class="form-control mb-2 mr-sm-2" id="filter-field" placeholder="Filter field">
-        
-          <label class="sr-only" for="filter-value">Username</label>
-          <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">@</div>
-            </div>
-            <input type="text" class="form-control" id="filter-value" placeholder="Value">
+      <div class="row  shadow p-3 mb-5 bg-white rounded">
+        <div class="container-fluid">
+          <div class="row">
+            <h2>Inspection Data</h2>
           </div>
-        
-          <button id="filter" class="btn btn-secondary mb-2">Filter</button>
-          <button id="filter-clear" class="btn btn-link mb-2">Clear filter</button>
-        </form> -->
+      
+          <div class="row">
+            <%- include('search.ejs') %>
+          </div>
+      
+          <div class="row">
+            <div class="col-lg-12">
+                <table id = "example" class="table-sm table-striped table-bordered">
+                  </table>
+                  </div>
+          </div>
+        </div>
       </div>
-      <div class="col-lg-2"></div>
-      <div class="col-lg-2">
-        <button id="btnAdd" type="button mb-3" class="btn btn-light">Add New Record</button>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-12">
-          <table id = "example" class="table-sm table-striped table-bordered">
-            </table>
-            </div>
-    </div>
+    
 
     <!-- Modal -->
     <%- include('modal.ejs') %>
 
     <br/>
-    <div class="row">
-      <div class="col-lg-12">
-        <!-- Pie chart -->
-            <%- include('piechart.ejs') %>
-      </div>
-      </div>
   </div>
 </body>
 </html>

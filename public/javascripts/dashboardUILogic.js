@@ -1,7 +1,9 @@
 $(document).ready(function () {
 
     //call different approach
-    loadMainTable();
+    // $.when(loadMainTable())
+    // .then(loadPieChart());
+    loadPageContent();
 
     //variable to indicate new row addition
     var newAdd = false;
@@ -15,8 +17,15 @@ $(document).ready(function () {
 
     var rowIndexForUpdate = -1;
 
+    //validate the modal
+    $("#modalForm").validate({
+        rules: {
+            id: "required"
+        },
+    })
+
     //Update the record in the database and update the table entry
-    $('#btnUpdate').on('click',btnUpdate_onClick)
+    $('#btnUpdate').on('click',btnUpdate_onClick);
 
     function btnUpdate_onClick(){
         var cct_num = $('#cct_num').val();
@@ -27,6 +36,12 @@ $(document).ready(function () {
         var street_add = $('#street_add').val();
         var zip = $('#zip').val();
         var id = $("#id").val();
+
+        //$('#modalForm').valid();
+        //if modal values missing, return
+        if(!($('#modalForm').valid())){
+            return;
+        }
 
         var address = { city:city , zip:zip, street: street_add};
         console.log("address obj"+address);
@@ -186,7 +201,67 @@ $(document).ready(function () {
         table.clearFilter();
         $('#filter-value').val('');
         $('#filter-field').val('-1');
-    })
+    });
+
+
+
+    function loadPageContent(){
+        var results = {}
+            $.ajax({
+                type: "GET",
+                url: '/stats',
+                async: false,
+                error: function(_,status,err){
+                    console.log(status,err);
+                    alert("Error occured!"+err);
+                },
+                success:function(data){
+                    renderChart(data);
+
+                    //After the data is loaded, load the main table
+                    loadMainTable();
+                }});
+    }
+
+
+    //Draw the pie chart
+    function renderChart(data){
+        this.results=JSON.parse(data);
+        console.log(this.results);
+        values = Object.values(this.results);
+        labels = Object.keys(this.results);
+
+        function getDataPoints(){
+
+            result = [];
+
+            for(var i=0;i<labels.length;i++){
+                result.push({y:values[i], label:labels[i]})
+
+            }
+            return result;
+        }
+        // console.log(values);
+        // console.log(labels);
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Results at a glance",
+                    fontFamily: "tahoma",
+                    fontWeight: "normal",
+                },
+                data: [{
+                    type: "pie",
+                    startAngle: 240,
+                    yValueFormatString: "##0",
+                    indexLabel: "{label} {y}",
+                    dataPoints: getDataPoints()
+                }]
+            });
+            chart.render();
+        
+    }
 
     
   });

@@ -1,0 +1,23 @@
+<div class="col-lg-8">
+    <div class="input-group mb-3">
+      <select id="filter-field" class="custom-select">
+        <option selected value='-1'>Select filter...</option>
+        <option value="id">ID</option>
+        <option value="certificate_number">Certificate Number</option>
+        <option value="business_name">Business Name</option>
+        <option value="result">Result</option>
+      </select>
+      <div class="input-group-prepend">
+        <div class="input-group-text">Resembles</div>
+      </div>
+      <input id="filter-value" type="text" class="form-control" aria-label="">
+      <div class="input-group-append">
+        <button id="filter" class="btn btn-warning">Search</button>
+      </div>
+      <button id="filter-clear" class="btn btn-link">Clear filter</button>
+    </div>
+  </div>
+  <div class="col-lg-2"></div>
+  <div class="col-lg-2">
+    <button id="btnAdd" type="button mb-3" class="btn btn-light">Add New Record</button>
+  </div>
