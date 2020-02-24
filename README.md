@@ -19,3 +19,6 @@ For this project, I have used Mongo-Express-Node stack and divided the project i
     **MongoDB** is as powerful as it gets! It is an amazing NoSQL database that provides fast access to data and countless capabilities to implement real-time data manipulation. Even though the project scope does not include real-time data reflection, it can be implemented as a future scope. I am planning to use **streams + websockets** to implement real-time data update at the client side.
 
 
+# UI glimpses
+
+![image](https://user-images.githubusercontent.com/47729974/75133931-91df9700-56aa-11ea-871e-4f5a3703625e.png)
