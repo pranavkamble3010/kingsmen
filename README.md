@@ -1,4 +1,4 @@
-# Kingsmen - City Inspections Dashboard
+# City Inspections Dashboard
 
 City inspections dashboard provides an interface to view and edit the inspection data that takes place in various cities based in New York state. It provides a lightweight interface for manipulating the inspection data.
 The city inspections data is a collection of about 86000 records. This data is about the inspection of various commercial spaces situated in various cities in the New York state. The inspection results are also recorded in the dataset.
